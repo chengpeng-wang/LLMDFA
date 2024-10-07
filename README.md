@@ -1,6 +1,6 @@
 # LLMDFA: Analyzing Dataflow in Code with Large Language Models
 
-LLMDFA is a LLM-powered data-flow analysis framework. Specifically, it instantiates bottom-up summary-based data-flow analysis by interpreting intra-procedural data-flow facts with LLMs. With the specified sources/sinks and data-flow transfer function (i.e., rules of propagating data-flow facts), LLMDFA can support various forms of bug detection in a context- and path-sensitive manner. Notably, the analysis is totally compilation-free.
+LLMDFA is an LLM-powered data-flow analysis framework. Specifically, it instantiates bottom-up summary-based data-flow analysis by interpreting intra-procedural data-flow facts with LLMs. With the specified sources/sinks and data-flow transfer functions (i.e., rules of propagating data-flow facts), LLMDFA can support various forms of bug detection in a context- and path-sensitive manner. Notably, the analysis is totally compilation-free.
 
 ## Installation
 
@@ -23,7 +23,7 @@ LLMDFA is a LLM-powered data-flow analysis framework. Specifically, it instantia
     python build.py
     ```
 
-4. Configure the keys:
+4. Configure your key:
     ```shell
     export OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     ```
@@ -41,7 +41,7 @@ LLMDFA is a LLM-powered data-flow analysis framework. Specifically, it instantia
 
     After that, you can obtain synthesized extractors in the file `src/TSAgent/TS_synthesis_extractor.py`. We also provide the manually crafted extractors in `src/TSAgent/TS_manual_extractor.py`. If you want to use the manually crafted ones, you can just overwrite `src/TSAgent/TS_synthesis_extractor.py` with the content of `src/TSAgent/TS_manual_extractor.py`.
 
-    Then we can run the following commands to detect the XSS bugs using LLMDFA powered by gpt-4o-mini as a demo, which contain 10 cases.
+    Then you can run the following commands to detect XSS bugs using LLMDFA powered by `gpt-4o-mini` as a demo, which contains 10 cases.
 
     ```shell
     cd src
@@ -51,7 +51,7 @@ LLMDFA is a LLM-powered data-flow analysis framework. Specifically, it instantia
         --analysis-mode single    
     ```
 
-    Then you can obtain the bug report in the directory `log/gpt-4o-mini/synparser_fscot_synsolver`. Also, the console output indicate the numbers of TPs and FPs. Here is an example:
+    Then you can obtain the bug report in the directory `log/gpt-4o-mini/synparser_fscot_synsolver`. Also, the console output indicates the numbers of TPs and FPs. Here is an example:
 
     ```
     CWE369_Divide_by_Zero__int_database_modulo_81 
@@ -59,14 +59,13 @@ LLMDFA is a LLM-powered data-flow analysis framework. Specifically, it instantia
     {'input_token_cost': 14237, 'output_token_cost': 973, 'analysis_result': {'TPs': 1, 'FPs': 0}, 'ground_truth': {'TPs': 1, 'FPs': 2}, 'single time cost': 16.143609285354614} 
     ```
 
-    In the above example, the case `CWE369_Divide_by_Zero__int_database_modulo_81` contains 1 true positive and 2 cases that are easily reported as false positives. The above console output indicates that LLMDFA report one true postive without false positive. The input and output costs are 14237 and 973, respectively. The time cost is 16.143609285354614 seconds.
+    In the above example, the case `CWE369_Divide_by_Zero__int_database_modulo_81` contains 1 true positive and 2 cases that are easily reported as false positives. The above console output indicates that LLMDFA reported one true positive without false positives. The input and output costs are 14237 and 973, respectively. The time cost is 16.143609285354614 seconds.
 
     If you want to detect all the XSS bugs in the Juliet Test Suite, you can just change the value of `analysis-mode` to `all`.
 
     If you want to change the bug types, you can reset the value of `bug-type` to `osci` and `dbz`.
 
-    If you want to change the LLMs, you can just change the value of `model-name` to the name of the models you want to use, such as `gpt-3.5-turbo` and `gpt-4-turbo`. The output reports of LLMDFA are stored in the separate directory in `log` when using different LLMs.
-
+    If you want to change the LLMs, you can just change the value of `model-name` to the name of the models you want to use, such as `gpt-3.5-turbo` and `gpt-4-turbo`. The output reports of LLMDFA are stored in separate directories in `log` when using different LLMs.
 
 2. Run ablations of LLMDFA
 
