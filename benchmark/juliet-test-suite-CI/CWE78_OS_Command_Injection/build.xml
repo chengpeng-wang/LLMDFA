@@ -1,0 +1,98 @@
+<!---->
+<project name="Testcases_per_CWE" default="war" basedir=".">
+    <description>
+        Java TestCases Build File
+    </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="."/>
+  <property name="build" location="antbuild"/>
+  <property name="dist"  location="antdist"/>
+  <property name="war" location="${basedir}.war"/>
+  <property name="jar" location="${basedir}.jar"/>
+
+      <!-- Required libraries -->
+  <property name="servlet.jar" location="../../../lib/servlet-api.jar"/>
+  <property name="commons-lang.jar" location="../../../lib/commons-lang-2.5.jar"/>
+  <property name="commons-codec.jar" location="../../../lib/commons-codec-1.5.jar"/>
+  <property name="javamail.jar" location="../../../lib/javamail-1.4.4.jar"/>
+  <path id="project.classpath">
+    <pathelement location="${servlet.jar}"/>
+	<pathelement location="${commons-lang.jar}"/>
+	<pathelement location="${commons-codec.jar}"/>
+	<pathelement location="${javamail.jar}"/>
+	<pathelement location="${build}"/>
+  </path>
+   
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+
+    <!-- Compile the support files first, other than the Mains -->
+    <javac includeantruntime="false"
+      srcdir="../../testcasesupport/"
+      destdir="${build}"
+      debug="true"
+      debuglevel="lines,vars,source"
+      fork="true"
+      memoryinitialsize="1024m"
+      memorymaximumsize="1024m"
+      excludes="*Main.java"> <!--Don't use the Mains in testcasesupport -->
+		<classpath refid="project.classpath"/>
+	</javac>
+	
+	<!-- Compile everything in this directory -->
+	<javac includeantruntime="false"
+		srcdir="." 
+		destdir="${build}"
+		debug="true"
+		debuglevel="lines,vars,source"
+    fork="true"
+		memoryinitialsize="1024m"
+		memorymaximumsize="1024m"> 
+		<classpath refid="project.classpath"/>
+	</javac>
+
+  </target>
+
+  <target name="jar" depends="compile"
+        description="generate a jar file" >
+
+    <!-- Put everything in ${build} into the TestCases.jar file -->
+    <jar jarfile="${jar}" basedir="${build}" />
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+    <delete file="${war}"/>
+	<delete file="${jar}"/>
+  </target>
+  
+  <target name="war" depends="compile">
+	<war destfile="${war}" webxml="web.xml">
+	  <classes dir="${build}"/>
+	  <fileset dir="../../../WebContent">
+	    <exclude name="WEB-INF/web.xml"/>
+	  </fileset>
+	</war>
+  </target>
+
+  <target name="war_with_libs" depends="compile">
+	<war destfile="${war}" webxml="web.xml">
+	  <classes dir="${build}"/>
+	  <fileset dir="../../../WebContent">
+	    <exclude name="WEB-INF/web.xml"/>
+	  </fileset>
+	  <lib dir="../../../lib" />
+	</war>
+  </target>  
+  
+</project>

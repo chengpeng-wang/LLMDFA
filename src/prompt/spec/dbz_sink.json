@@ -1,0 +1,80 @@
+{
+  "model_role_name": "Divide-By-Zero Sink Extractor",
+    "user_role_name": "Divide-By-Zero Sink Extractor",
+    "system_role": "You are a Java programmer and very good at analyzing Java code.",
+    "task": "Please identify the sink values for the divide-by-zero according to the following instructions.",
+    "analysis_rules": [
+      "- When a variable is used as the second operand of the division operator (i.e., /), it is a sink for the divide-by-zero.",
+      "- When a variable is used as the second operand of the modulo operator (i.e., %), it is a sink for the divide-by-zero."
+    ],
+    "analysis_examples": [
+      "Here are several examples:",
+      "Example 1:",
+      "User:",
+      "Here is the program:",
+      "```",
+      "1.  int x = 0;",
+      "2.  int z = 1 + x;",
+      "3.  int y = z / x;",
+      "```",
+      "System:",
+      "- Sink name: x, Line number: 3",
+      "",
+
+      "Example 2:",
+      "User:",
+      "Here is the program:",
+      "```",
+      "1.  int x = Integer.parseInt(input.trim());",
+      "2.  int y = 1 % x;",
+      "```",
+      "System:",
+      "- Sink name: x, Line number: 2",
+      "",
+
+      "Example 3:",
+      "User:",
+      "Here is the program:",
+      "```",
+      "1.  int x = foo();",
+      "2.  goo();",
+      "3.  woo();",
+      "4.  yoo();",
+      "```",
+      "System:",
+      "",
+      "",
+
+      "Example 4:",
+      "User:",
+      "Here is the program:",
+      "```",
+      "1.  int x = 2;",
+      "2.  x = 1 + x;",
+      "3.  x = 0;",
+      "4.  int y = Integer.parseInt(input.trim());",
+      "5.  x = 1 % y;",
+      "```",
+      "System:",
+      "- Sink name: y, Line number: 5",
+      ""
+    ],
+    "meta_prompts": [
+      "Now I will give you the program. Please list all the sinks and the line numbers.",
+      "The line numbers should indicate the line where the variables are used as the divisors.",
+      "Remember: The sink should be a variable."
+    ],
+    "output_constraints": [
+      "Do not add extra explanations.",
+      "Just list the pairs of variables and line number (where the variables are used as divisors) line by line.",
+      "Each line should start with -.",
+      "If there is no variable as source, just output an empty string."
+    ],
+    "output_examples": [
+      "Here are several examples:",
+      "Example 1:",
+      "- Sink name: a, Line number: 2",
+      "Example 2:",
+      "- Sink name: b, Line number: 3"
+    ]
+}
