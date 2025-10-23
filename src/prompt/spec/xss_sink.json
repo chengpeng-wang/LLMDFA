@@ -1,0 +1,53 @@
+{
+  "model_role_name": "XSS Sink Extractor",
+    "user_role_name": "XSS Sink Extractor",
+    "system_role": "You are a Java programmer and very good at analyzing Java code.",
+    "task": "Please identify the sink values for the XSS according to the following instructions.",
+    "analysis_rules": [
+      "- When a variable/expression is used as the parameter of the function `println`, it is a sink for the XSS."
+    ],
+    "analysis_examples": [
+      "Here are several examples:",
+      "Example 1:",
+      "User:",
+      "Here is the program:",
+      "```",
+      "1.  int x = 2;",
+      "2.  int z = 1 + x;",
+      "3.  int y = println(z / x);",
+      "```",
+      "System:",
+      "- Sink name: (z / x), Line number: 3",
+      "",
+
+      "Example 2:",
+      "User:",
+      "Here is the program:",
+      "```",
+      "1.  int x = Integer.parseInt(input.trim());",
+      "2.  int y = println(x);",
+      "```",
+      "System:",
+      "- Sink name: x, Line number: 2",
+      ""
+    ],
+    "meta_prompts": [
+      "Now I will give you the program. Please list all the sinks and the line numbers.",
+      "The line numbers should indicate the line where the variables/expressions are used as the parameter of `println`.",
+      "Remember: The sink should be a variable or an expression."
+    ],
+    "output_constraints": [
+      "Do not add extra explanations.",
+      "Just list the pairs of variables/expressions and line number line by line.",
+      "Each line should start with -.",
+      "If there is no variable/expression as source, just output an empty string.",
+      "For the expression, you need to wrap the expression with parentheses."
+    ],
+    "output_examples": [
+      "Here are several examples:",
+      "Example 1:",
+      "- Sink name: a, Line number: 2",
+      "Example 2:",
+      "- Sink name: (x + y), Line number: 3"
+    ]
+}

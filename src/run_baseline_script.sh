@@ -1,0 +1,1 @@
+python run_baseline.py --bug-type xss --model-name gpt-4o-mini --analysis-mode single
